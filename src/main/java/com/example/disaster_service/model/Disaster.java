@@ -1,5 +1,7 @@
 package com.example.disaster_service.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -29,7 +31,9 @@ public class Disaster {
     @Column(columnDefinition = "geometry(Polygon,4326)")
     private Polygon mainZone;
 
+
     @OneToMany(mappedBy = "disaster", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("disaster")
     private List<Zone> zones = new ArrayList<>();
 
 }
