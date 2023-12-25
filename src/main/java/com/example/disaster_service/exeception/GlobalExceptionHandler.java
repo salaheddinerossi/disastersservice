@@ -14,4 +14,11 @@ public class GlobalExceptionHandler {
     public String handelTokenNotValidException(TokenNotValidException e){
         return e.getMessage();
     }
+
+    @ExceptionHandler(DeclarationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handelDeclarationException(DeclarationException e){
+        return e.getMessage();
+    };
+
 }

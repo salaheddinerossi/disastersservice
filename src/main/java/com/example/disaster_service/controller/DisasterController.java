@@ -32,19 +32,13 @@ public class DisasterController {
     }
 
     @Value("${other.service.url}")
-    private String otherServiceUrl; // URL injected from properties
-
-
+    private String authService;
 
     @PostMapping("/upload")
     public ResponseEntity<?> uploadDisaster(@ModelAttribute DisasterDto disasterDTO,@RequestHeader("Authorization") String token) throws IOException, ParseException {
 
-        String actualToken = token.startsWith("Bearer ") ? token.substring(7) : token;
-        UserDetailsDto userDetails = userService.getUserDetailsFromOtherService(otherServiceUrl, actualToken);
-        boolean isAdmin = userDetails.getRole().equals("ROLE_ADMIN");
-        System.out.println(token);
 
-        System.out.println(isAdmin);
+        Boolean isAdmin = userService.isAdmin(token,authService);
 
         if (isAdmin) {
             Disaster disaster = disasterService.createDisaster(disasterDTO);

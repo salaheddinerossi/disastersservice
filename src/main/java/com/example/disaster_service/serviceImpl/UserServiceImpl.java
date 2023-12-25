@@ -3,7 +3,6 @@ package com.example.disaster_service.serviceImpl;
 import com.example.disaster_service.dto.UserDetailsDto;
 import com.example.disaster_service.exeception.TokenNotValidException;
 import com.example.disaster_service.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -40,5 +39,13 @@ public class UserServiceImpl implements UserService {
         }catch (HttpClientErrorException.Unauthorized ex){
             throw new  TokenNotValidException();
         }
+    }
+
+    @Override
+    public boolean isAdmin(String token, String url) {
+        String actualToken = token.startsWith("Bearer ") ? token.substring(7) : token;
+        UserDetailsDto userDetails = this.getUserDetailsFromOtherService(url, actualToken);
+        return userDetails.getRole().equals("ROLE_ADMIN");
+
     }
 }
