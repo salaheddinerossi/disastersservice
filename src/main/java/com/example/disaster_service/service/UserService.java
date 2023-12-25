@@ -7,4 +7,5 @@ public interface UserService {
 
 
     public boolean isAdmin(String token, String url);
+    public boolean isOrganization(String token, String url);
 }

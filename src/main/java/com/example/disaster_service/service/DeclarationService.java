@@ -15,4 +15,5 @@ public interface DeclarationService {
 
     public Declaration archiveDeclaration(Long id);
 
+
 }

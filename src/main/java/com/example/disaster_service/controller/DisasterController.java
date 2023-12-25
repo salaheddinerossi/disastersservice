@@ -48,4 +48,27 @@ public class DisasterController {
         }
     }
 
+    @GetMapping("/")
+    public ResponseEntity<?> getAllDisasters(){
+
+        return ResponseEntity.status(HttpStatus.OK).body(disasterService.getAllDisasters());
+
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getDisaster(@PathVariable Long id,@RequestHeader("Authorization") String token){
+
+        Boolean isAdmin = userService.isAdmin(token,authService);
+        Boolean isOrganization = userService.isOrganization(token,authService);
+
+
+
+        if (isAdmin || isOrganization){
+            return ResponseEntity.status(HttpStatus.OK).body(disasterService.getDisaster(id));
+        }
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("you don't have access to this data");
+
+    }
+
 }

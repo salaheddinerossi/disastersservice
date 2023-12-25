@@ -48,4 +48,11 @@ public class UserServiceImpl implements UserService {
         return userDetails.getRole().equals("ROLE_ADMIN");
 
     }
+
+    @Override
+    public boolean isOrganization(String token, String url) {
+        String actualToken = token.startsWith("Bearer ") ? token.substring(7) : token;
+        UserDetailsDto userDetails = this.getUserDetailsFromOtherService(url, actualToken);
+        return userDetails.getRole().equals("ROLE_ORGANIZATION");
+    }
 }

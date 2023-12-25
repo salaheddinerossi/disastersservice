@@ -1,10 +1,14 @@
 package com.example.disaster_service.serviceImpl;
 
 import com.example.disaster_service.dto.DisasterDto;
+import com.example.disaster_service.exeception.DisasterNotFoundException;
 import com.example.disaster_service.model.Disaster;
 import com.example.disaster_service.model.Zone;
 import com.example.disaster_service.repository.DisasterRepository;
 import com.example.disaster_service.repository.ZoneRepository;
+import com.example.disaster_service.response.DisasterResponseDto;
+import com.example.disaster_service.response.OneDisasterResponseDto;
+import com.example.disaster_service.response.ZoneResponseDto;
 import com.example.disaster_service.service.DisasterService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,6 +23,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Service
@@ -34,6 +40,8 @@ public class DisasterServiceImpl implements DisasterService {
         this.disasterRepository = disasterRepository;
         this.zoneRepository = zoneRepository;
     }
+
+
 
 
 
@@ -77,7 +85,53 @@ public class DisasterServiceImpl implements DisasterService {
     }
 
     @Override
-    public Zone createZone(Zone zone) {
-        return null;
+    public List<DisasterResponseDto> getAllDisasters() {
+        List<Disaster> disasters = disasterRepository.findAll();
+        List<DisasterResponseDto> disasterDtos = new ArrayList<>();
+
+        for (Disaster disaster : disasters) {
+            DisasterResponseDto dto = new DisasterResponseDto();
+            dto.setId(disaster.getId());
+            dto.setName(disaster.getName());
+            dto.setDescription(disaster.getDescription());
+            dto.setDate(disaster.getDate());
+            dto.setIsActive(disaster.getIsActive());
+            if (disaster.getMainZone() != null) {
+                dto.setCenter(disaster.getMainZone().getCentroid());
+            }
+
+            disasterDtos.add(dto);
+        }
+
+        return disasterDtos;
+
     }
+
+    @Override
+    public OneDisasterResponseDto getDisaster(Long id) {
+        Disaster disaster = disasterRepository.findById(id).orElseThrow(
+                DisasterNotFoundException::new
+        );
+
+        OneDisasterResponseDto oneDisasterResponseDto = new OneDisasterResponseDto();
+
+        for (Zone zone : disaster.getZones() ){
+
+            ZoneResponseDto zoneResponseDto = new ZoneResponseDto();
+            zoneResponseDto.setName(zone.getName());
+            zoneResponseDto.setId(zone.getId());
+            zoneResponseDto.setGeometry(zone.getGeometry());
+
+            oneDisasterResponseDto.getZones().add(zoneResponseDto);
+        }
+
+        oneDisasterResponseDto.setDescription(disaster.getDescription());
+        oneDisasterResponseDto.setId(disaster.getId());
+        oneDisasterResponseDto.setDate(disaster.getDate());
+        oneDisasterResponseDto.setIsActive(disaster.getIsActive());
+        oneDisasterResponseDto.setMainZone(disaster.getMainZone());
+
+        return oneDisasterResponseDto;
+    }
+
 }

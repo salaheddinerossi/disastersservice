@@ -21,4 +21,10 @@ public class GlobalExceptionHandler {
         return e.getMessage();
     };
 
+    @ExceptionHandler(DisasterNotFoundException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handelDisasterNotFoundException(DisasterNotFoundException e){
+        return e.getMessage();
+    }
+
 }
