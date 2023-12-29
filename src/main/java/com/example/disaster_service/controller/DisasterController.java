@@ -2,17 +2,15 @@ package com.example.disaster_service.controller;
 
 
 import com.example.disaster_service.dto.DisasterDto;
-import com.example.disaster_service.dto.UserDetailsDto;
 import com.example.disaster_service.model.Disaster;
 import com.example.disaster_service.service.DisasterService;
 import com.example.disaster_service.service.UserService;
+import jakarta.validation.Valid;
 import org.locationtech.jts.io.ParseException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
@@ -35,7 +33,7 @@ public class DisasterController {
     private String authService;
 
     @PostMapping("/upload")
-    public ResponseEntity<?> uploadDisaster(@ModelAttribute DisasterDto disasterDTO,@RequestHeader("Authorization") String token) throws IOException, ParseException {
+    public ResponseEntity<?> uploadDisaster(@Valid @ModelAttribute DisasterDto disasterDTO, @RequestHeader("Authorization") String token) throws IOException, ParseException {
 
 
         Boolean isAdmin = userService.isAdmin(token,authService);

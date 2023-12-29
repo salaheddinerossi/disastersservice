@@ -4,6 +4,7 @@ import com.example.disaster_service.dto.DeclarationDto;
 import com.example.disaster_service.model.Declaration;
 import com.example.disaster_service.service.DeclarationService;
 import com.example.disaster_service.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,7 @@ public class DeclarationController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<?> createDeclaration(@RequestBody DeclarationDto declarationDto){
+    public ResponseEntity<?> createDeclaration(@Valid @RequestBody DeclarationDto declarationDto){
 
 
         Declaration declaration = declarationService.createDeclaration(declarationDto);

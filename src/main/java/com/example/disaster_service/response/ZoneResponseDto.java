@@ -1,6 +1,5 @@
 package com.example.disaster_service.response;
 
-import com.example.disaster_service.model.Disaster;
 import com.example.disaster_service.serialization.PolygonSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
@@ -15,6 +14,7 @@ public class ZoneResponseDto {
 
     @JsonSerialize(using = PolygonSerializer.class)
     private Polygon geometry;
+
 
     //private OneDisasterResponseDto disaster;
 
