@@ -134,4 +134,23 @@ public class DisasterServiceImpl implements DisasterService {
         return oneDisasterResponseDto;
     }
 
+    @Override
+    public List<ZoneResponseDto> getDisastersWithZones() {
+
+        List<Disaster> disasters = disasterRepository.findAll();
+
+        List<ZoneResponseDto> zoneResponseDtos = new ArrayList<>();
+
+        for (Disaster disaster : disasters){
+            ZoneResponseDto zoneResponseDto = new ZoneResponseDto();
+
+            zoneResponseDto.setGeometry(disaster.getMainZone());
+            zoneResponseDto.setId(disaster.getId());
+            zoneResponseDto.setName(disaster.getName());
+
+            zoneResponseDtos.add(zoneResponseDto);
+        }
+        return zoneResponseDtos;
+    }
+
 }

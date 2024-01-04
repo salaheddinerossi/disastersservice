@@ -15,7 +15,4 @@ public class ZoneResponseDto {
     @JsonSerialize(using = PolygonSerializer.class)
     private Polygon geometry;
 
-
-    //private OneDisasterResponseDto disaster;
-
 }

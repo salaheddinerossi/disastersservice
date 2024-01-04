@@ -3,6 +3,7 @@ package com.example.disaster_service.controller;
 
 import com.example.disaster_service.dto.DisasterDto;
 import com.example.disaster_service.model.Disaster;
+import com.example.disaster_service.response.ZoneResponseDto;
 import com.example.disaster_service.service.DisasterService;
 import com.example.disaster_service.service.UserService;
 import jakarta.validation.Valid;
@@ -67,6 +68,11 @@ public class DisasterController {
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("you don't have access to this data");
 
+    }
+
+    @GetMapping("/mainzones")
+    public ResponseEntity<?> getDisastersWithZones(){
+        return ResponseEntity.status(HttpStatus.OK).body(disasterService.getDisastersWithZones());
     }
 
 }
