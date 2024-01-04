@@ -20,7 +20,7 @@ public class Declaration {
     private String fullName;
 
     @Column(name = "phone_number")
-    private Integer phoneNumber;
+    private String phoneNumber;
 
     private String address;
 

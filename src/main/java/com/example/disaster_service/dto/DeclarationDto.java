@@ -13,8 +13,8 @@ public class DeclarationDto {
     @NotBlank(message = "this is required")
     private String fullName;
 
-    @NotNull(message = "Phone Number is required")
-    private Integer phoneNumber;
+    @NotBlank(message = "Phone Number is required")
+    private String phoneNumber;
 
     @NotBlank(message = "Address is required")
     private String address;
