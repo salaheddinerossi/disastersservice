@@ -100,8 +100,13 @@ public class DisasterServiceImpl implements DisasterService {
                 dto.setCenter(disaster.getMainZone().getCentroid());
             }
 
-            disasterDtos.add(dto);
+            if(disaster.getIsActive()){
+                disasterDtos.add(dto);
+            }
+
         }
+
+
 
         return disasterDtos;
 
